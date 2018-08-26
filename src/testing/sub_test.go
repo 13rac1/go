@@ -316,6 +316,29 @@ func TestTRun(t *T) {
 			t.Skip()
 		},
 	}, {
+		desc: "expect fail, get fail",
+		ok:   true,
+		f: func(t *T) {
+			t.ExpectFail()
+			t.Fail()
+		},
+	}, {
+		desc: "expect panic fail, get panic fail",
+		ok:   true,
+		f: func(t *T) {
+			t.ExpectFail()
+			panic("expected panic")
+		},
+	}, {
+		desc: "expect fail, no fail",
+		ok:   false,
+		output: `
+--- FAIL: expect fail, no fail (N.NNs)
+    testing.go:NNN: expected failure; test did not fail`,
+		f: func(t *T) {
+			t.ExpectFail()
+		},
+	}, {
 		desc: "subtest calls error on parent",
 		ok:   false,
 		output: `
